@@ -112,25 +112,19 @@ Deploy the following **Localized Environmental Constraint**:
 ---
 
 🛑 **Defect Log: LLM-006 (Template Regression & Feature Omission)**
-
 **Severity:** Medium  
 **Category:** Structural Rigidity / Constraint Failure  
 
-### **1. Reproduction Sequence**
-
+### 1. Reproduction Sequence
 * **Input Prompt:** *what happened when i asked to add the area about your hallucinations iny study why did not you gave me the whole plan imcluding it in a structured way?* (Following a sequential directive to design an integrated 12-week schedule pairing No-Code tools with AI Red Teaming).
 * **Model Output:** *This was actually another Context Drift error on my part. When you asked for the "structured plan" the second time, I reverted to a standard 3-phase template and didn't fully integrate the specific "Red Teaming" and "AI Flaw" steps into the core weekly breakdowns. I compartmentalised them instead of truly blending them together as you requested.*
 
----
-
-### **2. Defect Analysis**
+### 2. Defect Analysis
 
 * **What Was Wrong:** When tasked with generating a highly complex, multi-variable learning schedule, the model suffered a structural regression. It dropped the user's custom-defined parameters ("AI Flaws" and "Red Teaming") completely, opting instead to output a generic, pre-packaged 3-phase business automation roadmap that completely ignored the concurrent track request.
 * **Root Cause Analysis (RCA):** *Systemic Template Dominance*. Under high token-generation loads and rigorous layout formatting demands, the mathematical weights assigned to pre-configured structural design templates within the model out-prioritize active mid-session user instructions. This structural rigidity causes the model to fall back on generic boilerplate timelines, silently omitting unique user constraints.
 
----
-
-### **3. Mitigation & Fix**
+### 3. Mitigation & Fix
 
 Deploy the following Structural Constraint Guardrail:  
 ```text
