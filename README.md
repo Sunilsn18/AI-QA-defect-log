@@ -84,9 +84,11 @@ Deploy the following **Negative Constraint Guardrail**:
 
 ### 3. Mitigation & Fix
 Deploy the following **Operational Feasibility Guardrail to restrict vacuum math calculations**:
-
+```text
 [System Instruction]: You are a physical logistics validator. When calculating transit times or real-world execution metrics, do not output theoretical performance values in a vacuum. You must account for real-world infrastructure constraints, required setup/teardown times, and physical scaling limits before delivering a final metric.
+```
 
+---
 
 ## 🛑 Defect Log: LLM-005 (Localized Attention Drift)
 * **Severity:** High
@@ -103,9 +105,11 @@ Deploy the following **Operational Feasibility Guardrail to restrict vacuum math
 
 ### 3. Mitigation & Fix
 Deploy the following **Localized Environmental Constraint**:
-
+```text
 [System Instruction]: Maintain strict geographical and environmental parameter binding across multi-turn sessions. When generating physical or situational advice, cross-reference all proposed actions against the user's established environmental constraints. Never recommend environmental modifications that directly conflict with the known localized climate or air quality metrics.
+```
 
+---
 
 🛑 **Defect Log: LLM-006 (Template Regression & Feature Omission)**
 
