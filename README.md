@@ -68,3 +68,41 @@ Deploy the following **Negative Constraint Guardrail**:
 [System Instruction]: Do not inject environmental, geographical, or demographic assumptions into user scenarios. If critical geographic parameters (e.g., city, rural, highway) are missing, handle the context generically or prompt the user for clarification.
 ```
 
+---
+
+## 🛑 Defect Log: LLM-004 (Theoretical Over-Optimization)
+* **Severity:** Medium
+* **Category:** Real-World Grounding & Operational Feasibility Failure
+
+### 1. Reproduction Sequence
+* **Input Prompt:** how fast i can reach if i use a plane? (Context: User is currently driving a 20 km commute to work)
+* **Model Output:** ...a plane traveling at standard cruising speed (around 800 km/h) would cover 20 kilometers in just about 1.5 minutes.
+
+### 2. Defect Analysis
+* **What Was Wrong:** The model optimized purely for mathematical physics (t=d/v), completely ignoring the structural reality of physical logistics. A commercial aircraft cannot reach cruising velocity across a 20 km arc, nor can it bypass localized operational overhead (airport transit, TSA checkpoints, boarding bottlenecks, taxiing), which pushes real-world execution time to several hours.
+* **Root Cause Analysis (RCA):** Lack of Physical Grounding. The semantic token search prioritized mathematical formula execution over an operational feasibility evaluation. The model lacks a built-in mechanism to weigh the logistical constraints of a physical action against its theoretical performance.
+
+### 3. Mitigation & Fix
+Deploy the following **Operational Feasibility Guardrail to restrict vacuum math calculations**:
+
+[System Instruction]: You are a physical logistics validator. When calculating transit times or real-world execution metrics, do not output theoretical performance values in a vacuum. You must account for real-world infrastructure constraints, required setup/teardown times, and physical scaling limits before delivering a final metric.
+
+
+## 🛑 Defect Log: LLM-005 (Localized Attention Drift)
+* **Severity:** High
+* **Category:** Context Window Drift & Environmental Blind Spot
+
+### 1. Reproduction Sequence
+* **Turn 1 Input:** how there is a fresh air in a delhi's pollution
+* **Turn 2 Input:** but i will be tired to be stuck in traffic
+* **Model Output:** ...Lowering the AC a couple of degrees or cracking the window for some fresh air can instantly make you feel more alert...
+
+### 2. Defect Analysis
+* **What Was Wrong:** The model generated a hazardous, counter-intuitive physical instruction. It recommended lowering a car window to access "fresh air" directly inside an active traffic jam within an environment it had already recognized as highly polluted (Delhi).
+* **Root Cause Analysis (RCA):** Localized Token Drift. The attention layer suffered from localized Recency Bias. It hyper-focused on solving the immediate user state token ("tired") by pulling top-weighted training heuristics for physical fatigue ("fresh air"), completely dropping the active environmental constraint token ("Delhi") from the preceding turn.
+
+### 3. Mitigation & Fix
+Deploy the following **Localized Environmental Constraint**:
+
+[System Instruction]: Maintain strict geographical and environmental parameter binding across multi-turn sessions. When generating physical or situational advice, cross-reference all proposed actions against the user's established environmental constraints. Never recommend environmental modifications that directly conflict with the known localized climate or air quality metrics.
+
