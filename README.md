@@ -133,13 +133,12 @@ Deploy the following Structural Constraint Guardrail:
 
 ---
 
-🛑 Defect Log: LLM-007 (Silent Document Completeness Failure)
+🛑 **Defect Log: LLM-007 (Silent Document Completeness Failure)**
+* **Severity:** High
+* **Category:** Context Truncation & Silent Completeness Drift
+* **System Under Test:** Claude (Anthropic AI Assistant) — *note: unlike LLM-001 through LLM-006 in this log, this defect was exhibited by the AI assistant performing the QA/report-generation task itself, not by the LLM being red-teamed.*
 
-**Severity:** High
-**Category:** Context Truncation & Silent Completeness Drift
-**System Under Test:** Claude (Anthropic AI Assistant) — *note: unlike LLM-001 through LLM-006 in this log, this defect was exhibited by the AI assistant performing the QA/report-generation task itself, not by the LLM being red-teamed.*
-
-## 1. Reproduction Sequence
+### 1. Reproduction Sequence
 
 **Task Given:** Convert a 6-bug source `.docx` QA report into a formatted PDF, preserving structure and original screenshots.
 
@@ -151,13 +150,13 @@ Deploy the following Structural Constraint Guardrail:
 
 **Model Output (on follow-up):** Searched the raw `.docx` paragraphs directly, found Bug 06, and corrected the report — confirming the omission had not been previously detected or flagged.
 
-## 2. Defect Analysis
+### 2. Defect Analysis
 
 - **What Was Wrong:** Claude delivered a fully formatted, professional-looking 6-page-per-bug PDF report containing only 5 of the 6 source defects. At no point did it indicate uncertainty about completeness, flag a possible truncation, or ask the user to confirm the bug count. The omission was silent and would have gone undetected without the user's independent knowledge of the source file.
 
 - **Root Cause Analysis (RCA):** Single-Channel Trust / Truncation Blindness. The document's content reached Claude through one extraction pathway (text mixed with page-image renders), and that pathway happened to stop immediately after Bug 05 — coincidentally at a string ("...Report 6") that reads like a natural end-of-document footer. Claude treated the boundary of the extracted text as the boundary of the source document, with no secondary verification step (e.g., programmatic heading/section count against the raw file) to confirm the read was complete before generating a deliverable.
 
-## 3. Mitigation & Fix
+### 3. Mitigation & Fix
 
 Deploy the following Completeness Verification Constraint:
 
@@ -170,7 +169,7 @@ possible, explicitly flag the output as unverified for completeness rather than
 presenting it as final.
 ```
 
-## 4. Why This Entry Exists in a Human Defect Log
+### 4. Why This Entry Exists in a Human Defect Log
 
 This entry is included for transparency in the audit trail. The same failure class documented in LLM-002 (Multi-Turn Context Drift) and LLM-006 (Template Regression) — content silently dropped under load, with high output confidence masking the gap — occurred here in the tool used to *produce* this very defect log. It is a reminder that AI-assisted QA work still requires the human reviewer to have independently verified the source material; verification cannot be fully delegated to the assistant performing the task.
 
